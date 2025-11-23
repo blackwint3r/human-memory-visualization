@@ -7,31 +7,71 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;700&family=Space+Grotesk:wght@400;500&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="style.css" />
+    <!-- MathJax for formulas (kept for reference if needed) -->
+    <script
+      id="MathJax-script"
+      async
+      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+    ></script>
     <style>
+      /* Override styles for the popular/poetic version */
       :root {
         color-scheme: dark;
-        background-color: #05060b;
-        color: #f5f5f7;
-        --bg-panel: rgba(255, 255, 255, 0.04);
-        --bg-panel-strong: rgba(255, 255, 255, 0.08);
-        --border: rgba(255, 255, 255, 0.14);
-        --accent: #67e8f9;
-        --accent-2: #ff98c2;
-        --accent-3: #7c8dff;
-        --text-muted: #9ea7c7;
+        /* Revert to dark theme colors */
+        --bg-body: #05070b;
+        --bg-panel: rgba(22, 27, 34, 0.6);
+        --bg-panel-strong: rgba(13, 17, 23, 0.8);
+        --border: rgba(48, 54, 61, 0.6);
+        --accent: #67e8f9; /* Cyan */
+        --accent-2: #ff98c2; /* Pink */
+        --accent-3: #7c8dff; /* Indigo */
+        --text-main: #e6edf3;
+        --text-muted: #8b949e;
       }
+
       body {
-        background-color: #05060b;
+        background-color: var(--bg-body);
         background-image: radial-gradient(
-          circle at 15% 20%,
-          #132236,
-          #05060b 60%
-        );
+            circle at 15% 50%,
+            rgba(103, 232, 249, 0.08),
+            transparent 25%
+          ),
+          radial-gradient(
+            circle at 85% 30%,
+            rgba(124, 141, 255, 0.08),
+            transparent 25%
+          );
+        color: var(--text-main);
+        font-family: "Noto Serif SC", "Songti SC", serif; /* Serif for poetic feel */
       }
+
+      /* Hero Typography */
+      h1,
+      h2,
+      h3 {
+        font-family: "Noto Serif SC", serif;
+        font-weight: 700;
+      }
+      
+      h1 {
+        text-shadow: 0 0 40px rgba(103, 232, 249, 0.3);
+      }
+
+      .eyebrow {
+        font-family: "Space Grotesk", sans-serif; /* Keep technical feel for subtitle */
+        opacity: 0.8;
+      }
+
+      .hero p {
+        font-size: 1.1rem;
+        color: var(--text-muted);
+      }
+
+      /* Restore rounded corners and shadows */
       .equation-card,
       .control,
       .canvas-wrapper,
@@ -39,98 +79,123 @@
       .insights,
       .contribution-panel,
       button,
-      #memoryCanvas {
-        border-radius: 1.1rem; /* Restore rounded corners */
-        box-shadow: inherit; /* Restore shadows logic if possible, or just re-enable default look */
-      }
-      
-      /* Re-apply shadow for canvas wrapper specifically as it had a strong one */
-      .canvas-wrapper {
-        box-shadow: 0 26px 60px rgba(0, 0, 0, 0.55);
-        background: var(--bg-panel-strong);
-        border: 1px solid var(--border);
-      }
-
-      /* Re-apply styles that were overridden in style.css for the light theme */
-      .metric.highlight {
-        background: rgba(103, 232, 249, 0.08);
-        border-color: var(--accent);
-      }
-      
+      #memoryCanvas,
+      .legend-swatch,
+      .dot,
       .stacked-bar .bar-track {
-        border-radius: 20px;
-        background: rgba(255, 255, 255, 0.06);
-        border: 1px solid rgba(255, 255, 255, 0.08);
-      }
-      
-      #memoryCanvas {
-        background: linear-gradient(145deg, rgba(7, 11, 22, 0.95), rgba(6, 9, 18, 0.9));
+        border-radius: 1rem;
       }
       
       .dot, .legend-swatch {
         border-radius: 999px;
       }
+      
+      .stacked-bar .bar-track {
+        border-radius: 20px;
+      }
+
+      .canvas-wrapper {
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        background: var(--bg-panel-strong);
+      }
+
+      #memoryCanvas {
+        background: linear-gradient(
+          145deg,
+          rgba(7, 11, 22, 0.95),
+          rgba(6, 9, 18, 0.9)
+        );
+      }
+      
+      .control {
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      }
+      
+      /* Equation Cards - softer look */
+      .equation-card {
+        background: rgba(22, 27, 34, 0.4);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+      }
+      
+      .equation-card .label {
+        font-family: "Space Grotesk", sans-serif;
+      }
+
+      /* Metrics highlights */
+      .metric {
+        background: rgba(22, 27, 34, 0.4);
+      }
+      .metric.highlight {
+        background: rgba(103, 232, 249, 0.05);
+        border-color: rgba(103, 232, 249, 0.3);
+      }
+
+      /* Switch Button Style Override */
+      .version-switch {
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        color: var(--accent);
+      }
+      .version-switch:hover {
+        background: rgba(255, 255, 255, 0.1);
+        border-color: var(--accent);
+      }
+
     </style>
-    <script
-      id="MathJax-script"
-      async
-      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
-    ></script>
   </head>
   <body>
     <main>
       <header class="hero">
-        <p class="eyebrow">Memory Architecture • A Poetic Model</p>
-        <h1>岁月的形状：我们如何留住时间</h1>
+        <p class="eyebrow">The Shape of Time</p>
+        <div class="title-row">
+          <h1>岁月的形状：我们如何留住时间</h1>
+          <a href="index.html" class="version-switch" title="切换到学术技术版">学术版 →</a>
+        </div>
         <p>
-          记忆不是简单的仓库，而是一个不断的卷积过程：新的经历涌入，旧的瞬间在遗忘曲线中风化。
-          <strong>现在的你，是过往所有经历经过时间加权后的总和。</strong>
+          如果人生是一条长河，记忆便是河床上的沉积物。
+          <br />
+          我们用数学重构这条河流：<strong>“当下”</strong>不断涌入新的经历，而<strong>“时间”</strong>则无情地冲刷着过往。
+          在这个可视化中，你可以看到那些珍贵的瞬间是如何沉淀下来，塑造了此刻的你。
         </p>
       </header>
 
       <section class="equation-panel">
         <article class="equation-card">
-          <span class="label">吸收力 (Absorption)</span>
+          <span class="label">感知的敏锐度</span>
           <div class="equation">
-            \[
-              m'(t) = \text{Acquisition Rate}
-            \]
+            <span style="font-size: 1.2rem; font-family: 'Noto Serif SC'">遇见</span>
           </div>
           <p>
-            年轻的大脑渴望新知，随着年岁增长，我们对世界的惊奇感会逐渐变得迟钝。这是记忆的<strong>原始素材</strong>。
+            年轻时，世界是新的，万物在此刻涌入感官。随着年岁增长，我们习以为常，心渐渐变得不再那么敏锐。
           </p>
         </article>
         <article class="equation-card">
-          <span class="label">时间的筛子 (The Filter)</span>
+          <span class="label">时光的冲刷</span>
           <div class="equation">
-            \[
-              \kappa(\Delta t) = \text{Forgetting Curve}
-            \]
+            <span style="font-size: 1.2rem; font-family: 'Noto Serif SC'">遗忘</span>
           </div>
           <p>
-            遗忘是人类的本能。大多数经历会迅速褪色，只有少数能转化为长期记忆，对抗时间的冲刷。
+            大多数经历如烟花般转瞬即逝，唯有那些刻骨铭心的瞬间，能在时间的洪流中留下长久的痕迹。
           </p>
         </article>
         <article class="equation-card">
-          <span class="label">往日的回响 (Echoes)</span>
+          <span class="label">过往的回响</span>
           <div class="equation">
-            \[
-              c(\tau, t) = \text{Residue}
-            \]
+            <span style="font-size: 1.2rem; font-family: 'Noto Serif SC'">沉淀</span>
           </div>
           <p>
-            此时此刻的你回望过去，那一年、那一刻的经历，在今天还剩下多少清晰的印记？
+            每一个过去的瞬间，都在此刻有着微弱但真实的回响。它们不再是原本的模样，却构成了现在的底色。
           </p>
         </article>
         <article class="equation-card">
-          <span class="label">当下的总和 (The Sum)</span>
+          <span class="label">此刻的你</span>
           <div class="equation">
-            \[
-              m(t) = \int \text{Echoes}
-            \]
+            <span style="font-size: 1.2rem; font-family: 'Noto Serif SC'">总和</span>
           </div>
           <p>
-            这是你此刻拥有的全部精神财富。它由无数个被遗忘打磨过的过去层层堆叠而成。
+            你不是孤立的此刻，你是所有过往的总和。那些被遗忘的，依然在暗处支撑着你。
           </p>
         </article>
       </section>
@@ -138,7 +203,7 @@
       <section class="controls">
         <div class="control slider">
           <label for="ageSlider">
-            当前年龄 t
+            时光流转
             <span id="ageValue">0 岁</span>
           </label>
           <input
@@ -152,7 +217,7 @@
         </div>
         <div class="control slider">
           <label for="forgettingSlider">
-            记忆保持力 κ
+            怀旧的深情
             <span id="forgettingLabel">中性</span>
           </label>
           <input
@@ -166,7 +231,7 @@
         </div>
         <div class="control slider">
           <label for="plasticitySlider">
-            可塑峰值 \(t_p\)
+            青春的长度
             <span id="plasticityLabel">32 岁</span>
           </label>
           <input
@@ -179,8 +244,8 @@
           />
         </div>
         <div class="control buttons">
-          <button id="playBtn">暂停动画</button>
-          <button id="resetBtn">回到童年</button>
+          <button id="playBtn">让时间流动</button>
+          <button id="resetBtn">回到最初</button>
         </div>
       </section>
 
@@ -194,10 +259,10 @@
               aria-label="艾宾浩斯卷积的可视化动画"
             ></canvas>
             <div class="legend">
-              <span><span class="dot acquisition"></span>吸收力 (即时增量)</span>
-              <span><span class="dot kernel"></span>筛子 (遗忘核)</span>
-              <span><span class="dot density"></span>回响 (贡献度)</span>
-              <span><span class="dot memory"></span>总和 (卷积记忆)</span>
+              <span><span class="dot acquisition"></span>新经历的涌入</span>
+              <span><span class="dot kernel"></span>遗忘的法则</span>
+              <span><span class="dot density"></span>过往的余温</span>
+              <span><span class="dot memory"></span>岁月的累积</span>
             </div>
             <div class="contribution-panel embedded">
               <h3>你的记忆主要停留在哪个年代？</h3>
@@ -209,51 +274,50 @@
                   <div class="bar-legend" id="contributionLegend"></div>
                 </div>
                 <p class="bar-desc">
-                  浅色代表早期记忆，深色代表近期记忆。
-                  当浅色区域占比超过深色时，意味着你的精神世界更多地由过去组成。
+                  这里的每一个色块，都代表一段过去。看看占据你心灵最多的，是童年的纯真，还是中年的厚重？
                 </p>
               </div>
             </div>
           </div>
           <div class="metrics sidepanel">
             <div class="metric">
-              <h3>当前年龄</h3>
+              <h3>当前时刻</h3>
               <p class="value" id="ageReadout">16.0 岁</p>
-              <p class="desc">横轴 t，代表时间/年龄</p>
+              <p class="desc">你现在正处于人生的这个阶段</p>
             </div>
             <div class="metric">
-              <h3>认知活力</h3>
+              <h3>正在经历</h3>
               <p class="value" id="incrementReadout">0.00</p>
-              <p class="desc">即时增量：此刻获取新记忆的能力</p>
+              <p class="desc">这一刻，你感受世界的强度</p>
             </div>
             <div class="metric">
-              <h3>精神厚度</h3>
+              <h3>记忆总量</h3>
               <p class="value" id="memoryReadout">0.00</p>
-              <p class="desc">卷积记忆：此时此刻的记忆总量</p>
+              <p class="desc">所有过往经历在当下的沉淀</p>
             </div>
             <div class="metric highlight">
-              <h3>留存率</h3>
+              <h3>遗忘速度</h3>
               <p class="value" id="kernelReadout">短 2.0 年 · 长 12.0 年</p>
-              <p class="desc">决定旧记忆在积分中的留存比例</p>
+              <p class="desc">往事消散的快慢</p>
             </div>
           </div>
         </div>
       </section>
 
       <section class="insights">
-        <h2>关于这幅图的思考</h2>
+        <h2>关于岁月的注脚</h2>
         <ul>
           <li>
             <strong>记忆的分水岭</strong>：计算表明，大约在 <strong>35 岁</strong>左右，你近期获取的新记忆（深色区域）将首次超过早年积累的旧记忆（浅色区域）。在此之前，你更多地活在当下（新记忆占主导）；在此之后，你更多地由过去组成（旧记忆占主导）。
           </li>
           <li>
-            <strong>吸收力 (Acquisition)</strong>：上方粉色曲线。它代表了你对世界的好奇心与吸收能力，随年岁增长而变化。
+            <strong>新经历</strong>：上方的粉色曲线代表你对当下的感知。试着拖动“青春的长度”，看看如果保持一颗童心，人生会有什么不同。
           </li>
           <li>
-            <strong>往日的回响 (Echoes)</strong>：中间的墨绿色曲线。它下方填充的蓝色地层图，直观地展示了不同年代的记忆是如何随着时间推移而堆叠、压缩和流失的。
+            <strong>余温</strong>：中间的绿色曲线象征着过往的余温。下方的蓝色地层，就像是树的年轮，一圈圈记录着你走过的路。
           </li>
           <li>
-            <strong>当下的总和 (The Sum)</strong>：最下方的蓝色包络线。这是你的精神总量，由无数个“过去”积分而成。
+            <strong>累积</strong>：最下方的蓝色轮廓，是你拥有的全部记忆。人生不是简单的加法，而是不断的加减与重组。
           </li>
         </ul>
       </section>
