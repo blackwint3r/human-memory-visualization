@@ -11,6 +11,66 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="style.css" />
+    <style>
+      :root {
+        color-scheme: dark;
+        background-color: #05060b;
+        color: #f5f5f7;
+        --bg-panel: rgba(255, 255, 255, 0.04);
+        --bg-panel-strong: rgba(255, 255, 255, 0.08);
+        --border: rgba(255, 255, 255, 0.14);
+        --accent: #67e8f9;
+        --accent-2: #ff98c2;
+        --accent-3: #7c8dff;
+        --text-muted: #9ea7c7;
+      }
+      body {
+        background-color: #05060b;
+        background-image: radial-gradient(
+          circle at 15% 20%,
+          #132236,
+          #05060b 60%
+        );
+      }
+      .equation-card,
+      .control,
+      .canvas-wrapper,
+      .metric,
+      .insights,
+      .contribution-panel,
+      button,
+      #memoryCanvas {
+        border-radius: 1.1rem; /* Restore rounded corners */
+        box-shadow: inherit; /* Restore shadows logic if possible, or just re-enable default look */
+      }
+      
+      /* Re-apply shadow for canvas wrapper specifically as it had a strong one */
+      .canvas-wrapper {
+        box-shadow: 0 26px 60px rgba(0, 0, 0, 0.55);
+        background: var(--bg-panel-strong);
+        border: 1px solid var(--border);
+      }
+
+      /* Re-apply styles that were overridden in style.css for the light theme */
+      .metric.highlight {
+        background: rgba(103, 232, 249, 0.08);
+        border-color: var(--accent);
+      }
+      
+      .stacked-bar .bar-track {
+        border-radius: 20px;
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+      }
+      
+      #memoryCanvas {
+        background: linear-gradient(145deg, rgba(7, 11, 22, 0.95), rgba(6, 9, 18, 0.9));
+      }
+      
+      .dot, .legend-swatch {
+        border-radius: 999px;
+      }
+    </style>
     <script
       id="MathJax-script"
       async
@@ -201,4 +261,3 @@
     <script src="script.js"></script>
   </body>
 </html>
-
