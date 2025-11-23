@@ -7,71 +7,31 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;700&family=Space+Grotesk:wght@400;500&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="style.css" />
-    <!-- MathJax for formulas (kept for reference if needed) -->
-    <script
-      id="MathJax-script"
-      async
-      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
-    ></script>
     <style>
-      /* Override styles for the popular/poetic version */
       :root {
         color-scheme: dark;
-        /* Revert to dark theme colors */
-        --bg-body: #05070b;
-        --bg-panel: rgba(22, 27, 34, 0.6);
-        --bg-panel-strong: rgba(13, 17, 23, 0.8);
-        --border: rgba(48, 54, 61, 0.6);
-        --accent: #67e8f9; /* Cyan */
-        --accent-2: #ff98c2; /* Pink */
-        --accent-3: #7c8dff; /* Indigo */
-        --text-main: #e6edf3;
-        --text-muted: #8b949e;
+        background-color: #05060b;
+        color: #f5f5f7;
+        --bg-panel: rgba(255, 255, 255, 0.04);
+        --bg-panel-strong: rgba(255, 255, 255, 0.08);
+        --border: rgba(255, 255, 255, 0.14);
+        --accent: #67e8f9;
+        --accent-2: #ff98c2;
+        --accent-3: #7c8dff;
+        --text-muted: #9ea7c7;
       }
-
       body {
-        background-color: var(--bg-body);
+        background-color: #05060b;
         background-image: radial-gradient(
-            circle at 15% 50%,
-            rgba(103, 232, 249, 0.08),
-            transparent 25%
-          ),
-          radial-gradient(
-            circle at 85% 30%,
-            rgba(124, 141, 255, 0.08),
-            transparent 25%
-          );
-        color: var(--text-main);
-        font-family: "Noto Serif SC", "Songti SC", serif; /* Serif for poetic feel */
+          circle at 15% 20%,
+          #132236,
+          #05060b 60%
+        );
       }
-
-      /* Hero Typography */
-      h1,
-      h2,
-      h3 {
-        font-family: "Noto Serif SC", serif;
-        font-weight: 700;
-      }
-      
-      h1 {
-        text-shadow: 0 0 40px rgba(103, 232, 249, 0.3);
-      }
-
-      .eyebrow {
-        font-family: "Space Grotesk", sans-serif; /* Keep technical feel for subtitle */
-        opacity: 0.8;
-      }
-
-      .hero p {
-        font-size: 1.1rem;
-        color: var(--text-muted);
-      }
-
-      /* Restore rounded corners and shadows */
       .equation-card,
       .control,
       .canvas-wrapper,
@@ -79,80 +39,49 @@
       .insights,
       .contribution-panel,
       button,
-      #memoryCanvas,
-      .legend-swatch,
-      .dot,
+      #memoryCanvas {
+        border-radius: 1.1rem; /* Restore rounded corners */
+        box-shadow: inherit; /* Restore shadows logic if possible, or just re-enable default look */
+      }
+      
+      /* Re-apply shadow for canvas wrapper specifically as it had a strong one */
+      .canvas-wrapper {
+        box-shadow: 0 26px 60px rgba(0, 0, 0, 0.55);
+        background: var(--bg-panel-strong);
+        border: 1px solid var(--border);
+      }
+
+      /* Re-apply styles that were overridden in style.css for the light theme */
+      .metric.highlight {
+        background: rgba(103, 232, 249, 0.08);
+        border-color: var(--accent);
+      }
+      
       .stacked-bar .bar-track {
-        border-radius: 1rem;
+        border-radius: 20px;
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+      }
+      
+      #memoryCanvas {
+        background: linear-gradient(145deg, rgba(7, 11, 22, 0.95), rgba(6, 9, 18, 0.9));
       }
       
       .dot, .legend-swatch {
         border-radius: 999px;
       }
-      
-      .stacked-bar .bar-track {
-        border-radius: 20px;
-      }
-
-      .canvas-wrapper {
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-        border: 1px solid rgba(255, 255, 255, 0.08);
-        background: var(--bg-panel-strong);
-      }
-
-      #memoryCanvas {
-        background: linear-gradient(
-          145deg,
-          rgba(7, 11, 22, 0.95),
-          rgba(6, 9, 18, 0.9)
-        );
-      }
-      
-      .control {
-        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-      }
-      
-      /* Equation Cards - softer look */
-      .equation-card {
-        background: rgba(22, 27, 34, 0.4);
-        border: 1px solid rgba(255, 255, 255, 0.05);
-      }
-      
-      .equation-card .label {
-        font-family: "Space Grotesk", sans-serif;
-      }
-
-      /* Metrics highlights */
-      .metric {
-        background: rgba(22, 27, 34, 0.4);
-      }
-      .metric.highlight {
-        background: rgba(103, 232, 249, 0.05);
-        border-color: rgba(103, 232, 249, 0.3);
-      }
-
-      /* Switch Button Style Override */
-      .version-switch {
-        border-radius: 999px;
-        background: rgba(255, 255, 255, 0.05);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        color: var(--accent);
-      }
-      .version-switch:hover {
-        background: rgba(255, 255, 255, 0.1);
-        border-color: var(--accent);
-      }
-
     </style>
+    <script
+      id="MathJax-script"
+      async
+      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+    ></script>
   </head>
   <body>
     <main>
       <header class="hero">
         <p class="eyebrow">Memory Architecture • A Poetic Model</p>
-        <div class="title-row">
-          <h1>岁月的形状：我们如何留住时间</h1>
-          <a href="index.html" class="version-switch" title="切换到学术技术版">学术版 →</a>
-        </div>
+        <h1>岁月的形状：我们如何留住时间</h1>
         <p>
           记忆不是简单的仓库，而是一个不断的卷积过程：新的经历涌入，旧的瞬间在遗忘曲线中风化。
           <strong>现在的你，是过往所有经历经过时间加权后的总和。</strong>
@@ -247,6 +176,20 @@
             max="45"
             step="0.5"
             value="32"
+          />
+        </div>
+        <div class="control slider">
+          <label for="learningSlider">
+            终身学习
+            <span id="learningLabel">50%</span>
+          </label>
+          <input
+            id="learningSlider"
+            type="range"
+            min="0"
+            max="1"
+            step="0.05"
+            value="0.5"
           />
         </div>
         <div class="control buttons">
