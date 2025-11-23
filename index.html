@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>艾宾浩斯卷积 | 思想的累积轨迹</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <script
+      id="MathJax-script"
+      async
+      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+    ></script>
+  </head>
+  <body>
+    <main>
+      <header class="hero">
+        <p class="eyebrow">Memory Architecture • Animated intuition</p>
+        <h1>艾宾浩斯卷积：思想如何在时间里堆叠</h1>
+        <p>
+          横轴 <strong>t</strong> 表示时间或年龄，纵轴 <strong>m</strong>
+          表示此刻可被提取的记忆强度。我们将人生看作一个不断注入记忆增量
+          <strong>m'(t)</strong> 的系统，并用艾宾浩斯遗忘曲线作为核函数，对历史进行衰减加权，形成卷积式的记忆累积。
+        </p>
+      </header>
+
+      <section class="equation-panel">
+        <article class="equation-card">
+          <span class="label">即时记忆增量</span>
+          <div class="equation">
+            \[
+              m'(t) = \frac{1}{1 + e^{-(t-12)/3}} \cdot \frac{1}{1 + e^{(t-32)/6}}
+            \]
+          </div>
+          <p>
+            前半生神经可塑性上升，达到峰值后逐渐下行，形成一个先陡增后缓慢衰落的记忆获取速率。
+          </p>
+        </article>
+        <article class="equation-card">
+          <span class="label">艾宾浩斯记忆核</span>
+          <div class="equation">
+            \[
+              \kappa(\Delta t) = e^{-\Delta t/\tau_s} + 0.35 e^{-\Delta t/\tau_l}
+            \]
+          </div>
+          <p>
+            由快速衰减的短期记忆与慢速衰减的长尾记忆叠加而成。滑块决定半衰期
+            \(\tau_s, \tau_l\)。
+          </p>
+        </article>
+        <article class="equation-card">
+          <span class="label">贡献度</span>
+          <div class="equation">
+            \[
+              c(\tau, t) = m'(\tau) \cdot \kappa(t-\tau)
+            \]
+          </div>
+          <p>
+            表示过往某一时刻 \(\tau\) 的经历在当前时刻 \(t\) 仍残留的记忆强度。
+          </p>
+        </article>
+        <article class="equation-card">
+          <span class="label">卷积记忆</span>
+          <div class="equation">
+            \[
+              m(t) = \int_{0}^{t} c(\tau, t)\,d\tau
+            \]
+          </div>
+          <p>
+            0 到 t 的所有经历进入积分，但每段记忆都会按艾宾浩斯核的权重衰减。动画展示这一“可塑性 × 遗忘核”的实时卷积过程。
+          </p>
+        </article>
+      </section>
+
+      <section class="controls">
+        <div class="control slider">
+          <label for="ageSlider">
+            当前年龄 t
+            <span id="ageValue">0 岁</span>
+          </label>
+          <input
+            id="ageSlider"
+            type="range"
+            min="0"
+            max="80"
+            step="0.1"
+            value="16"
+          />
+        </div>
+        <div class="control slider">
+          <label for="forgettingSlider">
+            记忆保持力 κ
+            <span id="forgettingLabel">中性</span>
+          </label>
+          <input
+            id="forgettingSlider"
+            type="range"
+            min="0.6"
+            max="1.4"
+            step="0.01"
+            value="1"
+          />
+        </div>
+        <div class="control slider">
+          <label for="plasticitySlider">
+            可塑峰值 \(t_p\)
+            <span id="plasticityLabel">32 岁</span>
+          </label>
+          <input
+            id="plasticitySlider"
+            type="range"
+            min="20"
+            max="45"
+            step="0.5"
+            value="32"
+          />
+        </div>
+        <div class="control buttons">
+          <button id="playBtn">暂停动画</button>
+          <button id="resetBtn">回到童年</button>
+        </div>
+      </section>
+
+      <section class="visualization">
+        <div class="visualization-main">
+          <div class="canvas-wrapper tall">
+            <canvas
+              id="memoryCanvas"
+              width="1080"
+              height="560"
+              aria-label="艾宾浩斯卷积的可视化动画"
+            ></canvas>
+            <div class="legend">
+              <span><span class="dot acquisition"></span>即时记忆增量 m'(t)</span>
+              <span><span class="dot kernel"></span>艾宾浩斯核 κ(Δt)</span>
+              <span><span class="dot density"></span>贡献度</span>
+              <span><span class="dot memory"></span>卷积后的记忆 m(t)</span>
+            </div>
+            <div class="contribution-panel embedded">
+              <h3>记忆由哪些年代组成？</h3>
+              <div class="stacked-bar">
+                <div class="bar-grid">
+                  <div class="bar-track" aria-label="历史贡献堆叠条">
+                    <div class="bar-fill" id="contributionBar"></div>
+                  </div>
+                  <div class="bar-legend" id="contributionLegend"></div>
+                </div>
+                <p class="bar-desc">
+                  条形被划分为多个时间段；每一段的宽度表示该段记忆对当前
+                  \(m(t)\) 的贡献比例。
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="metrics sidepanel">
+            <div class="metric">
+              <h3>当前年龄</h3>
+              <p class="value" id="ageReadout">16.0 岁</p>
+              <p class="desc">横轴 t，代表时间/年龄</p>
+            </div>
+            <div class="metric">
+              <h3>即时增量 m'(t)</h3>
+              <p class="value" id="incrementReadout">0.00</p>
+              <p class="desc">此刻获取新记忆的能力与认知活力</p>
+            </div>
+            <div class="metric">
+              <h3>卷积记忆 m(t)</h3>
+              <p class="value" id="memoryReadout">0.00</p>
+              <p class="desc">此时此刻的精神厚度与记忆总量</p>
+            </div>
+            <div class="metric highlight">
+              <h3>核半衰期</h3>
+              <p class="value" id="kernelReadout">短 2.0 年 · 长 12.0 年</p>
+              <p class="desc">决定旧记忆在积分中的留存比例</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="insights">
+        <h2>关于这幅图的思考</h2>
+        <ul>
+          <li>
+            <strong>记忆的分水岭</strong>：计算表明，大约在 <strong>35 岁</strong>左右，你近期获取的新记忆（深色区域）将首次超过早年积累的旧记忆（浅色区域）。在此之前，你更多地活在当下（新记忆占主导）；在此之后，你更多地由过去组成（旧记忆占主导）。
+          </li>
+          <li>
+            <strong>m'(t)</strong>：上方粉色曲线是即时记忆增量。调整可塑峰值，观察它在不同人生阶段的形状。
+          </li>
+          <li>
+            <strong>贡献度</strong>：中间的墨绿色曲线是贡献度。它下方填充的蓝色地层图，直观地展示了不同年代的记忆是如何随着时间推移而堆叠、压缩和流失的。
+          </li>
+          <li>
+            <strong>m(t)</strong>：最下方的蓝色包络线是最终的卷积记忆总量。通过同时调节保持力 \(\kappa\) 与可塑峰值 \(t_p\)，可以模拟不同的人生轨迹。
+          </li>
+        </ul>
+      </section>
+    </main>
+    <script src="script.js"></script>
+  </body>
+</html>
